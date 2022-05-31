@@ -15,7 +15,7 @@ public class RoomService {
 
     public RoomService() {
         this.rooms = new ArrayList<>();
-        this.rooms.add(new Room("Room 1"));
+        this.rooms.add(new Room("Room_1"));
         //this.rooms.add(new Room("Room 2"));
     }
 
@@ -40,7 +40,7 @@ public class RoomService {
     }
 
 
-    public void addNewDevice(String roomName, Device device) {
+    public void addNewDevice(String roomName,int deviceId , Device device) {
         Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
         if (modifyRoom == null){
             throw new IllegalStateException("room with name " + roomName + " does  not exist");
@@ -68,6 +68,6 @@ public class RoomService {
 
 
     public void updateRoom(String roomName, Room room) {
-        
+
     }
 }
