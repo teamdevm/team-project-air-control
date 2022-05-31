@@ -7,20 +7,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
+    private int id;
     private String name;
     private List<Device> devices;
     private List<Sensor> sensors;
 
-    public Room(String name, List<Device> devices, List<Sensor> sensors) {
+    public Room(int id, String name, List<Device> devices, List<Sensor> sensors) {
+        this.id = id;
         this.name = name;
         this.devices = devices;
         this.sensors = sensors;
     }
 
-    public Room(String name) {
+    public Room() {
+    }
+
+    public Room(int id, String name) {
+        this.id = id;
         this.name = name;
         devices = new ArrayList<>();
         sensors = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -50,7 +64,8 @@ public class Room {
     @Override
     public String toString() {
         return "Room{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", devices=" + devices +
                 ", sensors=" + sensors +
                 '}';

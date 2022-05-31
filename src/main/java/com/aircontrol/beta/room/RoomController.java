@@ -29,15 +29,15 @@ public class RoomController {
         roomService.addNewRoom(room);
     }
 
-//    @PostMapping(path = "{RoomName}/{DeviceID}")
-//    public void addDevice(@PathVariable("RoomName") String roomName,@PathVariable("RoomName") int deviceId, @RequestBody Device device){
-//        roomService.addNewDevice(roomName, deviceId, device);
-//    }
+    @PostMapping(path = "{RoomName}/1")
+    public void addDevice(@PathVariable("RoomName") String roomName, @RequestBody Device device){
+        roomService.addNewDevice(roomName, device);
+    }
 
-//    @PostMapping(path = "{RoomName}")
-//    public void addSensor(@PathVariable("RoomName") String roomName, @RequestBody Sensor sensor){
-//        roomService.addNewSensor(roomName, sensor);
-//    }
+    @PostMapping(path = "{RoomName}/2")
+    public void addSensor(@PathVariable("RoomName") String roomName, @RequestBody Sensor sensor){
+        roomService.addNewSensor(roomName, sensor);
+    }
 
     @DeleteMapping(path = "{RoomName}")
     public void deleteRoom(@PathVariable("RoomName") String roomName){

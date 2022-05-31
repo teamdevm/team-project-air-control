@@ -11,6 +11,9 @@ public class Sensor {
     private boolean hasCO2content;
     private int CO2content;
 
+    public Sensor() {
+    }
+
     public Sensor(int id, String name, String description, boolean hasTemperature, boolean hasHumidity, boolean hasCO2content) {
         this.id = id;
         this.name = name;

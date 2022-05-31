@@ -15,7 +15,7 @@ public class RoomService {
 
     public RoomService() {
         this.rooms = new ArrayList<>();
-        this.rooms.add(new Room("Room_1"));
+        this.rooms.add(new Room(1,"Room_1"));
         //this.rooms.add(new Room("Room 2"));
     }
 
@@ -40,15 +40,15 @@ public class RoomService {
     }
 
 
-    public void addNewDevice(String roomName,int deviceId , Device device) {
+    public void addNewDevice(String roomName, Device device) {
         Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
         if (modifyRoom == null){
             throw new IllegalStateException("room with name " + roomName + " does  not exist");
         }
 
-        boolean deviceExists = modifyRoom.getDevices().stream().anyMatch(d -> d.getId() == device.getId());
+        boolean deviceExists = modifyRoom.getDevices().stream().anyMatch(d -> d.getName().equals(device.getName()));
         if (deviceExists){
-            throw new IllegalStateException("device with id " + device.getId() + " already exist");
+            throw new IllegalStateException("device with name " + device.getName() + " already exist");
         }
         modifyRoom.getDevices().add(device);
     }
@@ -59,9 +59,9 @@ public class RoomService {
             throw new IllegalStateException("room with name " + roomName + " does  not exist");
         }
 
-        boolean sensorExists = modifyRoom.getDevices().stream().anyMatch(d -> d.getId() == sensor.getId());
+        boolean sensorExists = modifyRoom.getSensors().stream().anyMatch(d -> d.getName().equals(sensor.getName()));
         if (sensorExists){
-            throw new IllegalStateException("device with id " + sensor.getId() + " already exist");
+            throw new IllegalStateException("device with name " + sensor.getName() + " already exist");
         }
         modifyRoom.getSensors().add(sensor);
     }
