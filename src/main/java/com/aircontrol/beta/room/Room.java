@@ -123,6 +123,7 @@ public class Room {
     }
 
     public Stats getCurrentStats() {
+        this.calculateCurrentStats();
         return currentStats;
     }
 
@@ -136,6 +137,10 @@ public class Room {
 
     public List<Sensor> getSensors() {
         return sensors;
+    }
+
+    private void calculateCurrentStats(){
+        // TODO: make calculation
     }
 
     @Override

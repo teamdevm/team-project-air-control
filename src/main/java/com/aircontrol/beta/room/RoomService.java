@@ -196,4 +196,13 @@ public class RoomService {
 
         modifySensor.setName(sensorName);
     }
+
+    public Stats getCurrentStats(int roomId) {
+        Room roomOperation = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
+        if (roomOperation == null){
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
+        }
+
+        return roomOperation.getCurrentStats();
+    }
 }

@@ -106,8 +106,13 @@ public class RoomController {
 
     @PutMapping(path = "{RoomId}/update/sensor/{SensorId}/settings")
     public  void updateSensorName(@PathVariable("RoomId") int roomId,
-                              @PathVariable("SensorId") int sensorId,
-                              @RequestBody String sensorName ){
+                                  @PathVariable("SensorId") int sensorId,
+                                  @RequestBody String sensorName ){
         roomService.updateSensorName(roomId, sensorId, sensorName);
+    }
+
+    @GetMapping(path = "{RoomId}/get/currentStats")
+    public Stats getCurrentStats(@PathVariable("RoomId") int roomId){
+        return roomService.getCurrentStats(roomId);
     }
 }
