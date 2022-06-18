@@ -114,6 +114,22 @@ public class Room {
         this.currentStats.setCO2content(currentCO2content);
     }
 
+    public Stats getOptimalStats() {
+        return optimalStats;
+    }
+
+    public void setOptimalStats(Stats optimalStats) {
+        this.optimalStats = optimalStats;
+    }
+
+    public Stats getCurrentStats() {
+        return currentStats;
+    }
+
+    public void setCurrentStats(Stats currentStats) {
+        this.currentStats = currentStats;
+    }
+
     public List<Device> getDevices() {
         return devices;
     }

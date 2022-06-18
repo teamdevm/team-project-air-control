@@ -2,6 +2,7 @@ package com.aircontrol.beta.room;
 
 
 import com.aircontrol.beta.device.Device;
+import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +30,14 @@ public class RoomController {
         return roomService.getRoomsNames();
     }
 
-    @GetMapping(path = "{RoomName}/get/devices")
-    public List<Device> getDevices(@PathVariable("RoomName") String roomName){
-        return roomService.getDevices(roomName);
+    @GetMapping(path = "{RoomId}/get/devices")
+    public List<Device> getDevices(@PathVariable("RoomId") int roomId){
+        return roomService.getDevices(roomId);
     }
 
-    @GetMapping(path = "{RoomName}/get/sensors")
-    public List<Sensor> getSensors(@PathVariable("RoomName") String roomName){
-        return roomService.getSensors(roomName);
+    @GetMapping(path = "{RoomId}/get/sensors")
+    public List<Sensor> getSensors(@PathVariable("RoomId") int roomId){
+        return roomService.getSensors(roomId);
     }
 
     @PostMapping
@@ -44,42 +45,69 @@ public class RoomController {
         roomService.addNewRoom(room);
     }
 
-    @PostMapping(path = "{RoomName}/add/device")
-    public void addDevice(@PathVariable("RoomName") String roomName, @RequestBody Device device){
-        roomService.addNewDevice(roomName, device);
+    @PostMapping(path = "{RoomId}/add/device")
+    public void addDevice(@PathVariable("RoomId") int roomId, @RequestBody Device device){
+        roomService.addNewDevice(roomId, device);
     }
 
-    @PostMapping(path = "{RoomName}/add/sensor")
-    public void addSensor(@PathVariable("RoomName") String roomName, @RequestBody Sensor sensor){
-        roomService.addNewSensor(roomName, sensor);
+    @PostMapping(path = "{RoomId}/add/sensor")
+    public void addSensor(@PathVariable("RoomId") int roomId, @RequestBody Sensor sensor){
+        roomService.addNewSensor(roomId, sensor);
     }
 
-    @DeleteMapping(path = "{RoomName}")
-    public void deleteRoom(@PathVariable("RoomName") String roomName){
-        roomService.deleteRoom(roomName);
+    @DeleteMapping(path = "{RoomId}")
+    public void deleteRoom(@PathVariable("RoomId") int roomId){
+        roomService.deleteRoom(roomId);
     }
 
-    @DeleteMapping(path = "{RoomName}/delete/device/{DeviceId}")
-    public void deleteDevice(@PathVariable("RoomName") String roomName,
+    @DeleteMapping(path = "{RoomId}/delete/device/{DeviceId}")
+    public void deleteDevice(@PathVariable("RoomId") int roomId,
                              @PathVariable("DeviceId") int deviceId){
-        roomService.deleteDevice(roomName, deviceId);
+        roomService.deleteDevice(roomId, deviceId);
     }
 
-    @DeleteMapping(path = "{RoomName}/delete/sensor/{SensorId}")
-    public void deleteSensor(@PathVariable("RoomName") String roomName,
+    @DeleteMapping(path = "{RoomId}/delete/sensor/{SensorId}")
+    public void deleteSensor(@PathVariable("RoomId") int roomId,
                              @PathVariable("SensorId") int sensorId){
-        roomService.deleteSensor(roomName, sensorId);
+        roomService.deleteSensor(roomId, sensorId);
     }
 
-    @PutMapping(path = "{RoomName}/update/info")
-    public  void updateRoomInfo(@PathVariable("RoomName") String roomName,
+    @PutMapping(path = "{RoomId}/update/info")
+    public  void updateRoomInfo(@PathVariable("RoomId") int roomId,
                                 @RequestBody Room room){
-        roomService.updateRoomInfo(roomName, room);
+        roomService.updateRoomInfo(roomId, room);
     }
 
-    @PutMapping(path = "{RoomName}/update/name")
-    public  void updateRoomName(@PathVariable("RoomName") String roomName,
+    @PutMapping(path = "{RoomId}/update/name")
+    public  void updateRoomName(@PathVariable("RoomId") int roomId,
                                 @RequestBody String name){
-        roomService.updateRoomName(roomName, name);
+        roomService.updateRoomName(roomId, name);
+    }
+
+    @PutMapping(path = "{RoomId}/update/optimalStats")
+    public  void updateRoomOptStats(@PathVariable("RoomId") int roomId,
+                                    @RequestBody Stats optimalStats){
+        roomService.updateRoomOptimalStats(roomId, optimalStats);
+    }
+
+    @PutMapping(path = "{RoomId}/update/device/{DeviceId}/name")
+    public  void updateDevice(@PathVariable("RoomId") int roomId,
+                              @PathVariable("DeviceId") int deviceId,
+                              @RequestBody String deviceName ){
+        roomService.updateDeviceName(roomId, deviceId, deviceName);
+    }
+
+    @PutMapping(path = "{RoomId}/update/device/{DeviceId}/settings")
+    public  void updateDeviceSettings(@PathVariable("RoomId") int roomId,
+                                      @PathVariable("DeviceId") int deviceId,
+                                      @RequestBody DeviceSettings deviceSettings ){
+        roomService.updateDeviceSettings(roomId, deviceId, deviceSettings);
+    }
+
+    @PutMapping(path = "{RoomId}/update/sensor/{SensorId}/settings")
+    public  void updateSensorName(@PathVariable("RoomId") int roomId,
+                              @PathVariable("SensorId") int sensorId,
+                              @RequestBody String sensorName ){
+        roomService.updateSensorName(roomId, sensorId, sensorName);
     }
 }

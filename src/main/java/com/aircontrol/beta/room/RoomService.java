@@ -1,6 +1,7 @@
 package com.aircontrol.beta.room;
 
 import com.aircontrol.beta.device.Device;
+import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
 import org.springframework.stereotype.Service;
 
@@ -25,24 +26,24 @@ public class RoomService {
     public void addNewRoom(Room room) {
         boolean roomExists = this.rooms.stream().anyMatch(r -> r.getName().equals(room.getName()));
         if (roomExists){
-            throw new IllegalStateException("room with name " + room.getName() + " already exist");
+            throw new IllegalStateException("room with id " + room.getName() + " already exist");
         }
         this.rooms.add(room);
     }
 
-    public void deleteRoom(String roomName) {
-        boolean roomExists = this.rooms.stream().anyMatch(r -> r.getName().equals(roomName));
+    public void deleteRoom(int roomId) {
+        boolean roomExists = this.rooms.stream().anyMatch(r -> r.getId() == roomId);
         if (!roomExists){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
-        this.rooms.removeIf(r -> r.getName().equals(roomName));
+        this.rooms.removeIf(r -> r.getId() == roomId);
     }
 
 
-    public void addNewDevice(String roomName, Device device) {
-        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+    public void addNewDevice(int roomId, Device device) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() ==roomId).findAny().orElse(null);
         if (modifyRoom == null){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
 
         boolean deviceExists = modifyRoom.getDevices().stream().anyMatch(d -> d.getName().equals(device.getName()));
@@ -52,10 +53,10 @@ public class RoomService {
         modifyRoom.getDevices().add(device);
     }
 
-    public void addNewSensor(String roomName, Sensor sensor) {
-        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+    public void addNewSensor(int roomId, Sensor sensor) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
         if (modifyRoom == null){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
 
         boolean sensorExists = modifyRoom.getSensors().stream().anyMatch(d -> d.getName().equals(sensor.getName()));
@@ -74,46 +75,46 @@ public class RoomService {
         return roomsNames;
     }
 
-    public void updateRoomInfo(String roomName, Room room) {
-        Optional<Room> roomForUpdate = rooms.stream().filter(r -> r.getName().equals(roomName)).findAny();
-        if(!roomForUpdate.isPresent()){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+    public void updateRoomInfo(int roomId, Room room) {
+        Room roomForUpdate = rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
+        if(roomForUpdate == null){
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
-        roomForUpdate.get().copyMetaData(room);
+        roomForUpdate.copyMetaData(room);
     }
 
-    public List<Device> getDevices(String roomName) {
-        Optional<Room> room = rooms.stream().filter(r -> r.getName().equals(roomName)).findAny();
+    public List<Device> getDevices(int roomId) {
+        Optional<Room> room = rooms.stream().filter(r -> r.getId() == roomId).findAny();
         if(!room.isPresent()){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
         return room.get().getDevices();
     }
 
-    public List<Sensor> getSensors(String roomName) {
-        Optional<Room> room = rooms.stream().filter(r -> r.getName().equals(roomName)).findAny();
+    public List<Sensor> getSensors(int roomId) {
+        Optional<Room> room = rooms.stream().filter(r -> r.getId() == roomId).findAny();
         if(!room.isPresent()){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
         return room.get().getSensors();
     }
 
-    public void deleteDevice(String roomName, int deviceId) {
-        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+    public void deleteDevice(int roomId, int deviceId) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
         if (modifyRoom == null){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
 
         boolean deletedDevice = modifyRoom.getDevices().removeIf(r -> r.getId() == deviceId);
         if(!deletedDevice){
-            throw new IllegalStateException("device with id " + deviceId + " doesn't exist");
+            throw new IllegalStateException("device with id " + deviceId + " does not exist");
         }
     }
 
-    public void deleteSensor(String roomName, int sensorId) {
-        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+    public void deleteSensor(int roomId, int sensorId) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
         if (modifyRoom == null){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
 
         boolean deletedSensor = modifyRoom.getSensors().removeIf(r -> r.getId() == sensorId);
@@ -122,10 +123,10 @@ public class RoomService {
         }
     }
 
-    public void updateRoomName(String roomName, String name) {
-        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+    public void updateRoomName(int roomId, String name) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
         if (modifyRoom == null){
-            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
 
         Room checkRoom = this.rooms.stream().filter(r -> r.getName().equals(name)).findAny().orElse(null);
@@ -133,5 +134,66 @@ public class RoomService {
             throw new IllegalStateException("room with name " + name + " already exist");
         }
         modifyRoom.setName(name);
+    }
+
+    public void updateRoomOptimalStats(int roomId, Stats optimalStats) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
+        if (modifyRoom == null){
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
+        }
+
+        modifyRoom.setOptimalStats(optimalStats);
+    }
+
+    public void updateDeviceSettings(int roomId, int deviceId, DeviceSettings deviceSettings) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
+        if (modifyRoom == null){
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
+        }
+
+        Device modifyDevice = modifyRoom.getDevices().stream().filter(d -> d.getId() == deviceId).findAny().orElse(null);
+        if(modifyDevice == null){
+            throw new IllegalStateException("device with id " + deviceId + " does not exist");
+        }
+
+        modifyDevice.setSettings(deviceSettings);
+    }
+
+    public void updateDeviceName(int roomId, int deviceId, String deviceName) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
+        if (modifyRoom == null){
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
+        }
+
+        Device modifyDevice = modifyRoom.getDevices().stream().filter(d -> d.getId() == deviceId).findAny().orElse(null);
+        if(modifyDevice == null){
+            throw new IllegalStateException("device with id " + deviceId + " does not exist");
+        }
+
+        boolean deviceExists = modifyRoom.getDevices().stream().anyMatch(d -> d.getName().equals(deviceName));
+        if (deviceExists){
+            throw new IllegalStateException("device with name " + deviceName + " already exist");
+        }
+
+        modifyDevice.setName(deviceName);
+    }
+
+    public void updateSensorName(int roomId, int sensorId, String sensorName) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
+        if (modifyRoom == null){
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
+        }
+
+        Sensor modifySensor = modifyRoom.getSensors().stream().filter(s -> s.getId() == sensorId).findAny().orElse(null);
+        if(modifySensor == null){
+            throw new IllegalStateException("device with id " + sensorId + " does not exist");
+        }
+
+        boolean sensorExists = modifyRoom.getSensors().stream().anyMatch(d -> d.getName().equals(sensorName));
+        if (sensorExists){
+            throw new IllegalStateException("sensor with name " + sensorName + " already exist");
+        }
+
+        modifySensor.setName(sensorName);
     }
 }
