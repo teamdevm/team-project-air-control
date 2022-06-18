@@ -3,7 +3,6 @@ package com.aircontrol.beta.room;
 import com.aircontrol.beta.device.Device;
 import com.aircontrol.beta.sensor.Sensor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,13 +60,78 @@ public class RoomService {
 
         boolean sensorExists = modifyRoom.getSensors().stream().anyMatch(d -> d.getName().equals(sensor.getName()));
         if (sensorExists){
-            throw new IllegalStateException("device with name " + sensor.getName() + " already exist");
+            throw new IllegalStateException("sensor with name " + sensor.getName() + " already exist");
         }
         modifyRoom.getSensors().add(sensor);
     }
 
+    public List<String> getRoomsNames() {
+        List<String> roomsNames = new ArrayList<>();
+        for (Room r :
+             rooms) {
+            roomsNames.add(r.getName());
+        }
+        return roomsNames;
+    }
 
-    public void updateRoom(String roomName, Room room) {
+    public void updateRoomInfo(String roomName, Room room) {
+        Optional<Room> roomForUpdate = rooms.stream().filter(r -> r.getName().equals(roomName)).findAny();
+        if(!roomForUpdate.isPresent()){
+            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+        }
+        roomForUpdate.get().copyMetaData(room);
+    }
 
+    public List<Device> getDevices(String roomName) {
+        Optional<Room> room = rooms.stream().filter(r -> r.getName().equals(roomName)).findAny();
+        if(!room.isPresent()){
+            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+        }
+        return room.get().getDevices();
+    }
+
+    public List<Sensor> getSensors(String roomName) {
+        Optional<Room> room = rooms.stream().filter(r -> r.getName().equals(roomName)).findAny();
+        if(!room.isPresent()){
+            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+        }
+        return room.get().getSensors();
+    }
+
+    public void deleteDevice(String roomName, int deviceId) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+        if (modifyRoom == null){
+            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+        }
+
+        boolean deletedDevice = modifyRoom.getDevices().removeIf(r -> r.getId() == deviceId);
+        if(!deletedDevice){
+            throw new IllegalStateException("device with id " + deviceId + " doesn't exist");
+        }
+    }
+
+    public void deleteSensor(String roomName, int sensorId) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+        if (modifyRoom == null){
+            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+        }
+
+        boolean deletedSensor = modifyRoom.getSensors().removeIf(r -> r.getId() == sensorId);
+        if(!deletedSensor){
+            throw new IllegalStateException("sensor with id " + sensorId + " doesn't exist");
+        }
+    }
+
+    public void updateRoomName(String roomName, String name) {
+        Room modifyRoom = this.rooms.stream().filter(r -> r.getName().equals(roomName)).findAny().orElse(null);
+        if (modifyRoom == null){
+            throw new IllegalStateException("room with name " + roomName + " does  not exist");
+        }
+
+        Room checkRoom = this.rooms.stream().filter(r -> r.getName().equals(name)).findAny().orElse(null);
+        if (checkRoom != null){
+            throw new IllegalStateException("room with name " + name + " already exist");
+        }
+        modifyRoom.setName(name);
     }
 }
