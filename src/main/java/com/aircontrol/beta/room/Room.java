@@ -160,4 +160,5 @@ public class Room {
         this.name = room.getName();
         this.optimalStats = room.optimalStats.copy();
     }
+    //I am alive
 }
