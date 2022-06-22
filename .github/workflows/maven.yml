@@ -54,7 +54,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
     container:
-     image: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
+     image: ${{ secrets.DOCKERHUB_USERNAME }}/aircontrol:latest
      ports:
       - 8080
       
