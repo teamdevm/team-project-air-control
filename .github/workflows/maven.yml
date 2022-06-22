@@ -39,7 +39,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{env.DOKER_NAME}}/simplewhale:latest
+          tags: air/simplewhale:latest
     
   deploy:
     needs: build
@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
     container:
-     image: ${{env.DOKER_NAME}}/simplewhale:latest
+     image: air/simplewhale:latest
      ports:
       - 8080
       
