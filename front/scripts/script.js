@@ -29,11 +29,10 @@ window.onload = function() {
     }
     
     let getJSON = function(url, callback) {
-        alert(1);
         let xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.responseType = 'json';
-        xhr.onreadystatechange = function() {
+        xhr.onload = function() {
           let status = xhr.status;
           if (status === 200) {
             callback(null, xhr.response);
@@ -44,14 +43,12 @@ window.onload = function() {
         xhr.send();
     };
 
-    getJSON('http://localhost:8080/api/v1/roomsinfo',
+    getJSON('http://localhost:8080/api/v1/roomsinfo/roomList',
         function(err, data) {
             if (err !== null) {
-                alert(1);
                 alert('Something went wrong: ' + err);
             } else {
-                alert(1);
-                alert('Your query count: ' + data.query.count);
+                alert('Your query count: ' + data);
             }
         });
 }
