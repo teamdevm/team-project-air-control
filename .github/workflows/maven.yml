@@ -42,7 +42,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-        
+    
+    steps:
+      - uses: actions/checkout@v3
     container:
      image: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
      ports:
