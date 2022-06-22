@@ -43,7 +43,6 @@ jobs:
       with:
       # Image
         image: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
-        run: -p 8080:8080
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     
