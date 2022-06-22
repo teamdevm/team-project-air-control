@@ -56,7 +56,7 @@ jobs:
     env: 
       DOCKER_IMAGE : ${{secrets.DOCKERHUB_USERNAME }}/aircontrol:latest
     container:
-     image: technobread/aircontrol:latest
+     image: technobread/aircontol:latest
      ports:
       - 8080
       
