@@ -40,7 +40,8 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
     
   deploy:
-    uses: ubuntu-latest
+    needs: build
+    runs-on: ubuntu-latest
     steps:
     -
       name: Docker Login
