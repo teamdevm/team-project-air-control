@@ -39,5 +39,10 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
     
-    - name: Image digest
-      run: echo ${{steps.docker_build.outputs.digest}}
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+     image: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
+     ports:
+      - 8080
+      
