@@ -11,7 +11,7 @@ RUN ./mvnw -B dependency:go-offline -DskipTests
 
 RUN ./mvnw -B clean package -DskipTests
 
-
+#comment
 FROM openjdk:18-slim
 COPY --from=build target/air-0.0.1.jar /air.jar
 EXPOSE 8080
