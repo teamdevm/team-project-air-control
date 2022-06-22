@@ -40,5 +40,5 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
           
     - name: Docker Run Action
-      run: docker run -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}:latest
+      run: docker run -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
     
