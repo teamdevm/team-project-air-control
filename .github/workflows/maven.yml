@@ -38,7 +38,4 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
-          
-    - name: Docker Run Action
-      run: docker run -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
     
