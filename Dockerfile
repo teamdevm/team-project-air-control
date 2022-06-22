@@ -8,7 +8,6 @@ COPY pom.xml ./
 RUN sed -i 's/\r$//' mvnw
 RUN chmod +x mvnw
 RUN ./mvnw -B dependency:go-offline -DskipTests
-COPY src ./src
 
 FROM base as build
 
