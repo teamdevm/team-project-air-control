@@ -19,9 +19,6 @@ COPY front/fonts/ ./src/main/resources/static/fonts
 COPY front/scripts/ ./src/main/resources/static/scripts
 RUN ./mvnw -B clean package -DskipTests
 
-
-RUN ./mvnw -B clean package -DskipTests
-
 #comment
 FROM openjdk:18-slim
 COPY --from=build target/air-*.jar /air.jar
