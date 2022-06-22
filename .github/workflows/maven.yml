@@ -5,7 +5,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "front", "back"]
+    branches: [ "front", "back", "main"]
   pull_request:
     branches: [ "main", "dev" ]
 
@@ -33,7 +33,9 @@ jobs:
       uses: docker/build-push-action@v3.0.0
       with:
           context: .
-          file: ./Dockerfile
+          file: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/simplewhale:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}:latest
+    - name: Docker Run Action
+      run: docker run -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}:latest
     
