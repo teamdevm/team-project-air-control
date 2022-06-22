@@ -25,17 +25,20 @@ jobs:
           # Username used to log against the Docker registry
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-        logout: false
+
     - name: Set up Docker Buildx
+      id: buildx
       uses: docker/setup-buildx-action@v2.0.0
       
     - name: Build and push
+      id: docker_build
       uses: docker/build-push-action@v3.0.0
       with:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
+          
     - name: Docker Run Action
       run: docker run -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}:latest
     
