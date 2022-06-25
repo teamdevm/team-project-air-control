@@ -1,4 +1,5 @@
 window.onload = function() {
+    alert(1);
 
     let tabs = document.getElementsByClassName("tab");
     for(let i = 0; i < tabs.length; i++) {
@@ -27,28 +28,4 @@ window.onload = function() {
     function selectRoom(selected) {
         curRoom[0].innerHTML = selected.innerHTML;
     }
-    
-    let getJSON = function(url, callback) {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.responseType = 'json';
-        xhr.onload = function() {
-          let status = xhr.status;
-          if (status === 200) {
-            callback(null, xhr.response);
-          } else {
-            callback(status, xhr.response);
-          }
-        };
-        xhr.send();
-    };
-
-    getJSON('http://localhost:8080/api/v1/roomsinfo/roomList',
-        function(err, data) {
-            if (err !== null) {
-                alert('Something went wrong: ' + err);
-            } else {
-                alert('Your query count: ' + data);
-            }
-        });
 }

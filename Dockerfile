@@ -8,6 +8,9 @@ COPY pom.xml ./
 RUN sed -i 's/\r$//' mvnw
 RUN chmod +x mvnw
 RUN ./mvnw -B dependency:go-offline -DskipTests
+COPY src ./src
+
+FROM base as build
 
 FROM base as build
 COPY src/ ./src
@@ -18,8 +21,8 @@ COPY front/fonts/ ./src/main/resources/static/fonts
 COPY front/scripts/ ./src/main/resources/static/scripts
 RUN ./mvnw -B clean package -DskipTests
 
-
+#comment
 FROM openjdk:18-slim
-COPY --from=build target/air-0.0.1.jar /air.jar
+COPY --from=build target/air-*.jar /air.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/air.jar"]
