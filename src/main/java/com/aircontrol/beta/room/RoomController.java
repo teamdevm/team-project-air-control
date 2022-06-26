@@ -45,6 +45,11 @@ public class RoomController {
         roomService.addNewRoom(room);
     }
 
+    @PostMapping(path="addroom")
+    public void addRoomWithName(@RequestBody String roomName){
+        roomService.addNewRoomWithName(roomName);
+    }
+
     @PostMapping(path = "{RoomId}/add/device")
     public void addDevice(@PathVariable("RoomId") int roomId, @RequestBody Device device){
         roomService.addNewDevice(roomId, device);

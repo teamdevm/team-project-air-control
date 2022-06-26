@@ -205,4 +205,17 @@ public class RoomService {
 
         return roomOperation.getCurrentStats();
     }
+
+    public void addNewRoomWithName(String roomName) {
+        int newRoomId = rooms.size()+1;
+        int tmpId = newRoomId;
+        Room roomFinder = this.rooms.stream().filter(r -> r.getId() == tmpId).findAny().orElse(null);
+        while(roomFinder != null){
+            newRoomId++;
+            int ltmpId = newRoomId;
+            roomFinder = this.rooms.stream().filter(r -> r.getId() == ltmpId).findAny().orElse(null);
+        }
+
+        rooms.add(new Room(newRoomId, roomName));
+    }
 }
