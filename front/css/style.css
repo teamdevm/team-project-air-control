@@ -18,9 +18,27 @@
     src:url('../fonts/ZenKakuGothicAntique-Bold.ttf');
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
 p {
     margin: 0;
     padding: 0;
+}
+
+a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    margin: 0;
 }
 
 body {
@@ -33,7 +51,17 @@ body {
     overflow-y: hidden;
 }
 
-/* Upper blocks */
+input {
+    background-color: #D6DADE;
+    border: 1px black solid;
+}
+
+.sample {
+    display: none;
+}
+
+    /* Upper blocks */
+
 .left-sidebar {
     min-width: 242px;
     height: 100vh;
@@ -150,7 +178,7 @@ body {
 }
 
 .char-img {
-    width: 25px;
+    max-width: 25px;
     vertical-align: middle;
     margin-right: 9px;
 }
@@ -329,6 +357,153 @@ body {
     margin-right: 40px;
     padding-bottom: 5px;
     vertical-align: middle;
+}
+
+/* Popups */
+
+.popup {
+    font-family: 'Zen Kaku Gothic Antique Regular';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.8s ease 0s;
+}
+
+.popup.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup.open .popup-content {
+    transform:  perspective(600px) translate(0px, 0%) rotateX(0deg);
+    opacity: 1;
+}
+
+.popup-body {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content {
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    transition: all 0.8s ease 0s;
+    opacity: 0;
+    transform: perspective(600px) translate(0px, -100%) rotateX(45deg);
+    min-width: 425px;
+    padding: 32px 33px 26px 33px;
+}
+
+.popup-title {
+    font-family: 'Zen Kaku Gothic Antique Bold';
+    font-weight: 700;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.roomDesc {
+    display: block;
+    min-height: 80px;
+    background-color: #D6DADE;
+    resize: none;
+    padding: 3px 8px;
+    font-size: 14px;
+}
+
+.formBlock p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.textBlock {
+    flex-direction: column;
+    align-items: stretch;
+    display: flex;
+}
+
+.inputBlock {
+    display: flex;
+}
+
+.inputBlock > * {
+    display: block;
+}
+
+.inputBlock > input {
+    width: 100%;
+    padding: 3px 8px;
+}
+
+.inputBlock > img {
+    margin-right: 0;
+    margin-left: 8px;
+}
+
+.for-editing input {
+    margin-left: 30px;
+    max-width: 35px;
+}
+
+.for-editing .block-def {
+    min-width: 125px;
+}
+
+.for-editing .block-char {
+    justify-content: left;
+}
+
+.for-editing .char-value {
+    min-width: 28px;
+    text-align: left;
+    margin-right: 0px;
+    margin-left: 4px;
+}
+
+.for-editing {
+    margin-top: 0px;
+}
+
+.formBlock {
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-family: 'Zen Kaku Gothic Antique Regular';
+}
+
+.img-wrapper {
+    width: 100%;
+}
+
+.char-ref {
+    float: right;
+    cursor: pointer;
+    margin-right: 0;
+}
+
+.form-btns > * {
+    display: block;
+    width: 45%;
+    border-radius: 25px;
+    border: 1px solid black;
+    background-color: #D6DADE;
+    font-size: 16px;
+    line-height: 100%;
+    font-family: 'Zen Kaku Gothic Antique Medium';
+    padding: 13px 0;
+    cursor: pointer;
+}
+
+.form-btns {
+    display: flex;
+    justify-content: space-around;
 }
 
 /* Some prikols */
