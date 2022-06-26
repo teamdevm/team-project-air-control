@@ -10,5 +10,4 @@ class AircontrolApplicationTests {
 	void contextLoads() {
 	}
 
-
 }
