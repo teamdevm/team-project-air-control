@@ -45,6 +45,12 @@ public class RoomController {
         roomService.addNewRoom(room);
     }
 
+    @PostMapping(path="addroom/{RoomName}")
+    public void addRoomWithOptStats(@PathVariable("RoomName") String roomName,
+                                    @RequestBody Stats optStats){
+        roomService.addNewRoomWithOptStats(roomName, optStats);
+    }
+
     @PostMapping(path = "{RoomId}/add/device")
     public void addDevice(@PathVariable("RoomId") int roomId, @RequestBody Device device){
         roomService.addNewDevice(roomId, device);
