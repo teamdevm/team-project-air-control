@@ -3,11 +3,12 @@ package com.aircontrol.beta.room;
 import com.aircontrol.beta.device.Device;
 import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
+import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -66,11 +67,16 @@ public class RoomService {
         modifyRoom.getSensors().add(sensor);
     }
 
-    public List<String> getRoomsNames() {
-        List<String> roomsNames = new ArrayList<>();
+    public List<Map<String, String>> getRoomsNames() {
+
+        List<Map<String, String>> roomsNames = new ArrayList<>();
+
         for (Room r :
              rooms) {
-            roomsNames.add(r.getName());
+            Map<String, String> jo = new HashMap<>();
+            jo.put("id", ((Integer)r.getId()).toString());
+            jo.put("name", r.getName());
+            roomsNames.add(jo);
         }
         return roomsNames;
     }
