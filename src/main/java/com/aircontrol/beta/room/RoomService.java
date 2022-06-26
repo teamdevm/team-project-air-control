@@ -206,7 +206,7 @@ public class RoomService {
         return roomOperation.getCurrentStats();
     }
 
-    public void addNewRoomWithName(String roomName) {
+    public void addNewRoomWithOptStats(String roomName, Stats optStats) {
         int newRoomId = rooms.size()+1;
         int tmpId = newRoomId;
         Room roomFinder = this.rooms.stream().filter(r -> r.getId() == tmpId).findAny().orElse(null);
@@ -216,6 +216,6 @@ public class RoomService {
             roomFinder = this.rooms.stream().filter(r -> r.getId() == ltmpId).findAny().orElse(null);
         }
 
-        rooms.add(new Room(newRoomId, roomName));
+        rooms.add(new Room(newRoomId, roomName, optStats.getTemperature(), optStats.getHumidity(), optStats.getCO2content()));
     }
 }
