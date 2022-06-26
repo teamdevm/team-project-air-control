@@ -10,8 +10,6 @@ RUN chmod +x mvnw
 RUN ./mvnw -B dependency:go-offline -DskipTests
 
 FROM base as build
-
-FROM base as build
 COPY src/ ./src
 COPY front/index.html ./src/main/resources/templates
 COPY front/css/ ./src/main/resources/static/css

@@ -9,20 +9,15 @@
 <body>
     <div class="main">
         <div class="left-sidebar">
-            <div class="logo">Suck dick</div>
+            <div class="logo">Best air ever</div>
             <div class="room-block">
                 <div class="block-header">Комнаты</div>
                 <div class="room-lst">
-                    <div class="room"><img class="room-img" src="emojis/folder-user.svg" alt="">Комната 1</div>
-                    <div class="room"><img class="room-img" src="emojis/folder-user.svg" alt="">Комната 2</div>
-                    <div class="room"><img class="room-img" src="emojis/folder-user.svg" alt="">Комната 3</div>
-                    <div class="room"><img class="room-img" src="emojis/folder-user.svg" alt="">Комната 4</div>
-                    <div class="room"><img class="room-img" src="emojis/folder-user.svg" alt="">Комната 5</div>
-                    <div class="room"><img class="room-img" src="emojis/folder-user.svg" alt="">Комната 6</div>
+                    <div class="room sample"><img class="room-img" src="emojis/folder-user.svg" alt=""></div>
                 </div>
-                <div class="btn-addroom">
+                <a href="#popup-addRoom" class="btn-addroom popup-link">
                     Новая комната <span class="small-icon">+</span>
-                </div>
+                </a>
             </div>
             <div class="block-chars">
                 <div class="block-header">Оптимальные характеристики</div>
@@ -380,7 +375,70 @@
             </div>
         </div>
     </div>
+    <div id="popup-addRoom" class="popup">
+        <div class="popup-body">
+            <div class="popup-content">
+                <a href="" class="popup-close"></a>
+                <div class="popup-title">Новая комната</div>
+                <form action="#" name="addroom">
+                    <div class="formBlock">
+                        <p>Название комнаты</p>
+                        <div class="inputBlock">
+                            <input type="text" name="roomName" placeholder="Комната 1"/>
+                            <img class="char-img" src="emojis/folder-user.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="formBlock">
+                        <div class="textBlock">
+                            <p>Описание комнаты</p>
+                            <textarea placeholder="Комната 1 это большая которые невозможно увидеть простыми глазами" class="roomDesc" name="roomDesc"></textarea>
+                        </div>
+                    </div>
+                    <div class="formBlock">
+                        <div class="block-chars for-editing">
+                            <p>Введите оптимальные значения для комнаты</p>
+                            <div class="block-char">
+                                <div class="block-def">
+                                    <img class="char-img" src="emojis/temperature-high-solid.svg" alt="">
+                                    Температура 
+                                </div>
+                                <input type="number" min="0" max="40" name="optTempreture" maxlength="4"/><span class="char-value">°C</span>
+                                <div class="img-wrapper">
+                                    <img class="char-img char-ref" src="emojis/circle-question-solid.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="block-char">
+                                <div class="block-def">
+                                    <img class="char-img" src="emojis/water-solid.svg" alt="">
+                                    Влажность
+                                </div>
+                                <input type="number" min="0" max="100" name="optHumidity" maxlength="4"/><span class="char-value">%</span>
+                                <div class="img-wrapper">
+                                    <img class="char-img char-ref" src="emojis/circle-question-solid.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="block-char">
+                                <div class="block-def">
+                                    <img class="char-img" src="emojis/seedling-solid.svg" alt="">
+                                    CO2 
+                                </div>
+                                <input type="number" min="0" max="2000" name="optCarbon" maxlength="4"/><span class="char-value">ppm</span>
+                                <div class="img-wrapper">
+                                    <img class="char-img char-ref" src="emojis/circle-question-solid.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-btns">
+                        <input type="submit" value="Создать"/>
+                        <a href="#" class="popup-close">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="scripts/page_init.js"></script>
-    <script src="scripts/page_requests.js"></script>
+    <script src="scripts/page_getrooms.js"></script>
+    <script src="scripts/page_addroom.js"></script>
 </body>
 </html>
