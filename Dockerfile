@@ -10,7 +10,16 @@ RUN ./mvnw -B dependency:go-offline -DskipTests
 COPY src ./src
 
 FROM base as build
+<<<<<<< Updated upstream
 
+=======
+COPY src/ ./src
+COPY front/index.html ./src/main/resources/templates
+COPY front/css/ ./src/main/resources/static/css
+COPY front/emojis/ ./src/main/resources/static/emojis
+COPY front/fonts/ ./src/main/resources/static/fonts
+COPY front/scripts/ ./src/main/resources/static/scripts
+>>>>>>> Stashed changes
 RUN ./mvnw -B clean package -DskipTests
 
 #comment
