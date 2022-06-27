@@ -4,10 +4,14 @@ package com.aircontrol.beta.room;
 import com.aircontrol.beta.device.Device;
 import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
+import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/roomsinfo")
@@ -26,7 +30,7 @@ public class RoomController {
     }
 
     @GetMapping(path = "roomList")
-    public List<String> getRoomsNames(){
+    public List<Map<String, String>> getRoomsNames(){
         return roomService.getRoomsNames();
     }
 
