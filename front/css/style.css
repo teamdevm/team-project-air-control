@@ -131,6 +131,7 @@ input {
 
 .room-lst .room:hover {
     background-color: #FAFAFA;
+    cursor: pointer;
 }
 
 .room-img {
@@ -171,6 +172,10 @@ input {
     justify-content: space-between;
     padding: 20px 22px 19px 16px;
     box-shadow: inset 0px -1px 0px #F1F1F1;
+}
+
+.block-def {
+    width: 100%;
 }
 
 .current-chars {
