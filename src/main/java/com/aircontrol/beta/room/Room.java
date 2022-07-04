@@ -38,6 +38,8 @@ public class Room {
     public Room(int id, String name, int optimalTemperature, int optimalHumidity, int optimalCO2content) {
         this.id = id;
         this.name = name;
+        devices = new ArrayList<>();
+        sensors = new ArrayList<>();
         this.optimalStats = new Stats(optimalTemperature, optimalHumidity, optimalCO2content);
         this.currentStats = new Stats(-1, -1, -1);
     }

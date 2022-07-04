@@ -61,7 +61,7 @@ public class RoomService {
         int newSensorId = rooms.size()+1;
         int tmpId = newSensorId;
         Sensor sensorFinder = modifyRoom.getSensors().stream().filter(s -> s.getId() == tmpId).findAny().orElse(null);
-        while(sensorFinder == null){
+        while(sensorFinder != null){
             newSensorId++;
             int ltmpId = newSensorId;
             sensorFinder = modifyRoom.getSensors().stream().filter(s -> s.getId() == ltmpId).findAny().orElse(null);
