@@ -65,7 +65,7 @@ async function getRooms(url) {
             optimalStatsEl[2].innerHTML = optimalData.co2content + 'ppm';
 
             oldSensors = document.querySelectorAll('#block_sensors .block-device');
-            sensorLst = document.querySelector('#block_sensors');
+            sensorLst = document.querySelector('.devices-lst');
             for(let i = 0; i < oldSensors.length; i++) {
                 if(!oldSensors[i].classList.contains('sample')) {
                     sensorLst.removeChild(oldSensors[i]);
@@ -80,10 +80,10 @@ async function getSensors(url) {
     let sensorsData = await sensorsResponse.json();
 
     sensorSample = document.getElementsByClassName("block-device sample");
-    sensorslst = document.getElementsByClassName("#block_sensors");
+    sensorslst = document.querySelector(".devices-lst");
 
     sensorsId = []
-    curSensors = document.querySelectorAll('#sensors .block-device');
+    curSensors = document.querySelectorAll('#block_sensors .block-device');
     for(let i = 0; i < curSensors.length; i++) {
         if(!curSensors[i].classList.contains('sample')) {
             sensorsId.push(curSensors[i].id.replace('sensor', ''));
@@ -99,18 +99,18 @@ async function getSensors(url) {
             clonedSensor.querySelector('.device-header').innerHTML = sensorsData[i].name;
             clonedSensor.querySelector('p').innerHTML = sensorsData[i].description;
 
-            sensorChars = clonedSensor.querySelectorAll('device-icon');
+            sensorChars = clonedSensor.querySelectorAll('.device-icon');
             if(sensorsData[i].hasTemperature) {
                 sensorChars[0].classList.remove('sample');
-                sensorChars[0].textContent = Number(sensorsData[i].temperature) + '°C';
+                sensorChars[0].innerHTML += Number(sensorsData[i].temperature) + '°C';
             }
             if(sensorsData[i].hasHumidity) {
                 sensorChars[1].classList.remove('sample');
-                sensorChars[1].textContent = Number(sensorsData[i].humidity) + '%';
+                sensorChars[1].innerHTML += Number(sensorsData[i].humidity) + '%';
             }
             if(sensorsData[i].hasCO2content) {
                 sensorChars[2].classList.remove('sample');
-                sensorChars[2].textContent = Number(sensorsData[i].co2content) + 'ppm';
+                sensorChars[2].innerHTML += Number(sensorsData[i].co2content) + 'ppm';
             }
 
             sensorslst.appendChild(clonedSensor);
@@ -128,6 +128,9 @@ async function addSensor() {
     newsensor = {};
     newsensor.name = data.get('sensorName');
     newsensor.description = data.get('sensorDesc');
+    newsensor.hasTemperature = false;
+    newsensor.hasHumidity = false;
+    newsensor.hasCO2content = false;
     if(data.get('sensorTemperature'))
         newsensor.hasTemperature = true;
     if(data.get('sensorHumidity'))
@@ -146,6 +149,15 @@ async function addSensor() {
     if (sensorRequest.status > 400 && sensorRequest.status < 600)
         throw 'Ошибочка';
     else {
+
+        oldSensors = document.querySelectorAll('#block_sensors .block-device');
+        sensorLst = document.querySelector('.devices-lst');
+        for(let i = 0; i < oldSensors.length; i++) {
+            if(!oldSensors[i].classList.contains('sample')) {
+                sensorLst.removeChild(oldSensors[i]);
+            }
+        }
+
         await getSensors('http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors');
         stopInterval();
         requestsInterval = setInterval(forInterval, 4000);
