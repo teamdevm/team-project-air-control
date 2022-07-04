@@ -39,22 +39,22 @@ public class Sensor {
         this.CO2content = CO2content;
     }
     public void getNewStats(Stats optimalStats){
-        int temp = 8;
+        int min = 0;
         if(optimalStats.getTemperature() > temperature)
-           temp = 6;
+           min = -2;
         else
-            temp = 10;
-        temperature += (int)(Math.random()*10-temp);
+            min = -5;
+        temperature += (int)(Math.random()*(5-min)+min);
         if(optimalStats.getHumidity() > humidity)
-            temp = 6;
+            min = -2;
         else
-            temp = 10;
-        humidity += (int)(Math.random()*10-temp);
+            min = -5;
+        humidity += (int)(Math.random()*(5-min)+min);
         if(optimalStats.getCO2content() > CO2content)
-            temp = 6;
+            min = -2;
         else
-            temp = 10;
-        CO2content += (int)(Math.random()*10-temp);
+            min = -5;
+        CO2content += (int)(Math.random()*(5-min)+min);
     }
     public int getId() {
         return id;
