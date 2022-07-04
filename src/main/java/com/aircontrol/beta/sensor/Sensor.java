@@ -40,21 +40,39 @@ public class Sensor {
     }
     public void getNewStats(Stats optimalStats){
         int min = 0;
-        if(optimalStats.getTemperature() > temperature)
-           min = -2;
-        else
-            min = -5;
-        temperature += (int)(Math.random()*(5-min)+min);
+        int max = 0;
+        if(optimalStats.getTemperature() > temperature){
+            max = 7;
+            min = -2;
+        }
+
+        else {
+            max = 3;
+            min = -7;
+        }
+        temperature += (int)(Math.random()*(max-min)+min);
         if(optimalStats.getHumidity() > humidity)
+        {
+            max = 7;
             min = -2;
+        }
         else
-            min = -5;
-        humidity += (int)(Math.random()*(5-min)+min);
+        {
+            max = 3;
+            min = -7;
+        }
+        humidity += (int)(Math.random()*(max-min)+min);
         if(optimalStats.getCO2content() > CO2content)
+        {
+            max = 7;
             min = -2;
+        }
         else
-            min = -5;
-        CO2content += (int)(Math.random()*(5-min)+min);
+        {
+            max = 3;
+            min = -7;
+        }
+        CO2content += (int)(Math.random()*(max-min)+min);
     }
     public int getId() {
         return id;
