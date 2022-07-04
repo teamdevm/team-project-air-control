@@ -138,6 +138,8 @@ public class Room {
     }
 
     public List<Sensor> getSensors() {
+        for(Sensor tmp : sensors)
+            tmp.getNewStats();
         return sensors;
     }
 

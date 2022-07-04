@@ -36,7 +36,11 @@ public class Sensor {
         this.humidity = humidity;
         this.CO2content = CO2content;
     }
-
+    public void getNewStats(){
+        temperature += (int)(Math.random()*10-5);
+        humidity += (int)(Math.random()*10-5);
+        CO2content += (int)(Math.random()*10-5);
+    }
     public int getId() {
         return id;
     }
@@ -70,7 +74,6 @@ public class Sensor {
     }
 
     public int getTemperature() {
-        temperature += Integer.parseInt(String.valueOf(random()*10-5));
         return temperature;
     }
 
@@ -87,7 +90,6 @@ public class Sensor {
     }
 
     public int getHumidity() {
-        humidity += Integer.parseInt(String.valueOf(random()*10-5));
         return humidity;
     }
 
@@ -105,7 +107,6 @@ public class Sensor {
     }
 
     public int getCO2content() {
-        CO2content +=  Integer.parseInt(String.valueOf(random()*10-5));
         return CO2content;
     }
 
