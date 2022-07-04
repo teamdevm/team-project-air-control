@@ -123,4 +123,7 @@ public class RoomController {
     public Stats getCurrentStats(@PathVariable("RoomId") int roomId){
         return roomService.getCurrentStats(roomId);
     }
+
+    @GetMapping(path = "{RoomId}/get/optimalStats")
+    public Stats getOptimalStats(@PathVariable("RoomId") int roomId) { return roomService.getOptimalStats(roomId);}
 }
