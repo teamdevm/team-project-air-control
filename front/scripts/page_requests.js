@@ -143,7 +143,7 @@ async function addSensor() {
         },
         body: JSON.stringify(newsensor)
     });
-    if (roomRequest.status > 400 && roomRequest.status < 600)
+    if (sensorRequest.status > 400 && sensorRequest.status < 600)
         throw 'Ошибочка';
     else {
         await getSensors('http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors');
@@ -196,6 +196,7 @@ async function addRoom(addForm) {
     temper = data.get('optTempreture');
     humid = data.get('optHumidity');
     CO2 = data.get('optCarbon');
+    newroom.optimalStats = {};
     if(temper == '')
         newroom.optimalStats.temperature = 24;
     else
@@ -219,8 +220,8 @@ async function addRoom(addForm) {
         },
         body: JSON.stringify(newroom.optimalStats)
     });
-    if (roomRequest.status > 400 && roomRequest.status < 600)
-        throw 'Ошибочка';
+    /*if (roomRequest.status > 400 && roomRequest.status < 600)
+        throw 'Ошибочка';*/
 
     await getRooms('http://localhost:8080/api/v1/roomsinfo/roomList');
 }
@@ -231,12 +232,12 @@ let requestsInterval = setInterval(forInterval, 4000);
 
 addRoomForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    try {
+    //try {
         await addRoom(addRoomForm);
-    } catch {
+    /*} catch {
         alert("Данные введены некорректно!");
         return;
-    }
+    }*/
     
     addRoomForm.reset();
     addRoomForm.closest('.popup').classList.remove('open');
@@ -244,12 +245,12 @@ addRoomForm.addEventListener('submit', async function(e) {
 
 addSensorForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    try {
+    //try {
         await addSensor();
-    } catch {
+    /*} catch {
         alert("Данные введены некорректно!");
         return;
-    }
+    }*/
     
     addSensorForm.reset();
     addSensorForm.closest('.popup').classList.remove('open');
