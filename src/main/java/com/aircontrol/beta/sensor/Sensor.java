@@ -1,5 +1,7 @@
 package com.aircontrol.beta.sensor;
 
+import com.aircontrol.beta.room.Stats;
+
 import static java.lang.Math.random;
 
 public class Sensor {
@@ -36,10 +38,23 @@ public class Sensor {
         this.humidity = humidity;
         this.CO2content = CO2content;
     }
-    public void getNewStats(){
-        temperature += (int)(Math.random()*10-5);
-        humidity += (int)(Math.random()*10-5);
-        CO2content += (int)(Math.random()*10-5);
+    public void getNewStats(Stats optimalStats){
+        int temp = 8;
+        if(optimalStats.getTemperature() > temperature)
+           temp = 6;
+        else
+            temp = 10;
+        temperature += (int)(Math.random()*10-temp);
+        if(optimalStats.getHumidity() > humidity)
+            temp = 6;
+        else
+            temp = 10;
+        humidity += (int)(Math.random()*10-temp);
+        if(optimalStats.getCO2content() > CO2content)
+            temp = 6;
+        else
+            temp = 10;
+        CO2content += (int)(Math.random()*10-temp);
     }
     public int getId() {
         return id;

@@ -139,7 +139,7 @@ public class Room {
 
     public List<Sensor> getSensors() {
         for(Sensor tmp : sensors)
-            tmp.getNewStats();
+            tmp.getNewStats(optimalStats);
         return sensors;
     }
 
