@@ -487,6 +487,11 @@ input {
     width: 100%;
 }
 
+.input-wrap {
+    width: 80px;
+    display: flex;
+}
+
 .char-ref {
     float: right;
     cursor: pointer;
@@ -509,6 +514,13 @@ input {
 .form-btns {
     display: flex;
     justify-content: space-around;
+}
+
+.for-checkbox {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+    padding: 3px 5px;
 }
 
 /* Some prikols */
