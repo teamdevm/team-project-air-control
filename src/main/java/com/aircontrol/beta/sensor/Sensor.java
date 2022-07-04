@@ -1,5 +1,7 @@
 package com.aircontrol.beta.sensor;
 
+import static java.lang.Math.random;
+
 public class Sensor {
     private int id;
 
@@ -14,17 +16,17 @@ public class Sensor {
     public Sensor(int id, SensorHeader sensorHeader) {
         this.id = id;
         this.sensorHeader = sensorHeader;
-        this.temperature = 0;
-        this.CO2content = 0;
-        this.humidity = 0;
+        this.temperature = 24 + Integer.parseInt(String.valueOf(random()*10-5));
+        this.CO2content = 500 + Integer.parseInt(String.valueOf(random()*10-5));
+        this.humidity = 40 + Integer.parseInt(String.valueOf(random()*10-5));
     }
 
     public Sensor(int id, String name, String description, boolean hasTemperature, boolean hasHumidity, boolean hasCO2content) {
         this.id = id;
         this.sensorHeader = new SensorHeader(name, description, hasTemperature, hasHumidity, hasCO2content);
-        this.temperature = 0;
-        this.CO2content = 0;
-        this.humidity = 0;
+        this.temperature = 24 + Integer.parseInt(String.valueOf(random()*10-5));
+        this.CO2content = 500 + Integer.parseInt(String.valueOf(random()*10-5));
+        this.humidity = 40 + Integer.parseInt(String.valueOf(random()*10-5));
     }
 
     public Sensor(int id, String name, String description, boolean hasTemperature, int temperature, boolean hasHumidity, int humidity, boolean hasCO2content, int CO2content) {
@@ -68,7 +70,7 @@ public class Sensor {
     }
 
     public int getTemperature() {
-
+        temperature += Integer.parseInt(String.valueOf(random()*10-5));
         return temperature;
     }
 
@@ -85,6 +87,7 @@ public class Sensor {
     }
 
     public int getHumidity() {
+        humidity += Integer.parseInt(String.valueOf(random()*10-5));
         return humidity;
     }
 
@@ -93,6 +96,7 @@ public class Sensor {
     }
 
     public boolean isHasCO2content() {
+
         return sensorHeader.isHasCO2content();
     }
 
@@ -101,12 +105,15 @@ public class Sensor {
     }
 
     public int getCO2content() {
+        CO2content +=  Integer.parseInt(String.valueOf(random()*10-5));
         return CO2content;
     }
 
     public void setCO2content(int CO2content) {
         this.CO2content = CO2content;
     }
+
+
 
     @Override
     public String toString() {

@@ -140,7 +140,33 @@ public class Room {
     }
 
     private void calculateCurrentStats(){
-        // TODO: make calculation
+        int avgTemp = 0;
+        int kTemp = 0;
+        int avgHum = 0;
+        int kHum = 0;
+        int avgCO2 = 0;
+        int kCO2 = 0;
+        for (int i = 0; i < sensors.size(); i++) {
+            Sensor tmp = sensors.get(i);
+            if(tmp.isHasTemperature()){
+                avgTemp += tmp.getTemperature();
+                kTemp += 1;
+            }
+            if(tmp.isHasHumidity()){
+                avgHum += tmp.getHumidity();
+                kHum += 1;
+            }
+            if(tmp.isHasCO2content()){
+                avgCO2 += tmp.getTemperature();
+                kCO2 += 1;
+            }
+        }
+        if(kTemp > 0)
+            currentStats.setTemperature(avgTemp/kTemp);
+        if(kHum > 0)
+            currentStats.setHumidity(avgHum/kHum);
+        if(kCO2 > 0)
+            currentStats.setCO2content(avgCO2/kCO2);
     }
 
     @Override
