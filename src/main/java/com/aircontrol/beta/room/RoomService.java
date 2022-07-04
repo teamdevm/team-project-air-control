@@ -3,9 +3,7 @@ package com.aircontrol.beta.room;
 import com.aircontrol.beta.device.Device;
 import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
-import org.apache.commons.lang3.tuple.Pair;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.aircontrol.beta.sensor.SensorHeader;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -54,17 +52,21 @@ public class RoomService {
         modifyRoom.getDevices().add(device);
     }
 
-    public void addNewSensor(int roomId, Sensor sensor) {
+    public void addNewSensor(int roomId, SensorHeader sensor) {
         Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
         if (modifyRoom == null){
             throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
 
-        boolean sensorExists = modifyRoom.getSensors().stream().anyMatch(d -> d.getName().equals(sensor.getName()));
-        if (sensorExists){
-            throw new IllegalStateException("sensor with name " + sensor.getName() + " already exist");
+        int newSensorId = rooms.size()+1;
+        int tmpId = newSensorId;
+        Sensor sensorFinder = modifyRoom.getSensors().stream().filter(s -> s.getId() == tmpId).findAny().orElse(null);
+        while(sensorFinder != null){
+            newSensorId++;
+            int ltmpId = newSensorId;
+            sensorFinder = modifyRoom.getSensors().stream().filter(s -> s.getId() == ltmpId).findAny().orElse(null);
         }
-        modifyRoom.getSensors().add(sensor);
+        modifyRoom.getSensors().add(new Sensor(newSensorId, sensor));
     }
 
     public List<Map<String, String>> getRoomsNames() {

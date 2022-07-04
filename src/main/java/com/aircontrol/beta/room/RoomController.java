@@ -4,9 +4,7 @@ package com.aircontrol.beta.room;
 import com.aircontrol.beta.device.Device;
 import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
-import org.apache.commons.lang3.tuple.Pair;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.aircontrol.beta.sensor.SensorHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,7 +59,7 @@ public class RoomController {
     }
 
     @PostMapping(path = "{RoomId}/add/sensor")
-    public void addSensor(@PathVariable("RoomId") int roomId, @RequestBody Sensor sensor){
+    public void addSensor(@PathVariable("RoomId") int roomId, @RequestBody SensorHeader sensor){
         roomService.addNewSensor(roomId, sensor);
     }
 

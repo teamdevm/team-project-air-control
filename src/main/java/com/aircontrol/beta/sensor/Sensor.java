@@ -2,25 +2,26 @@ package com.aircontrol.beta.sensor;
 
 public class Sensor {
     private int id;
-    private String name;
-    private String description;
-    private boolean hasTemperature;
+
+    private SensorHeader sensorHeader;
     private int temperature;
-    private boolean hasHumidity;
     private int humidity;
-    private boolean hasCO2content;
     private int CO2content;
 
     public Sensor() {
     }
 
+    public Sensor(int id, SensorHeader sensorHeader) {
+        this.id = id;
+        this.sensorHeader = sensorHeader;
+        this.temperature = 0;
+        this.CO2content = 0;
+        this.humidity = 0;
+    }
+
     public Sensor(int id, String name, String description, boolean hasTemperature, boolean hasHumidity, boolean hasCO2content) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-        this.hasTemperature = hasTemperature;
-        this.hasHumidity = hasHumidity;
-        this.hasCO2content = hasCO2content;
+        this.sensorHeader = new SensorHeader(name, description, hasTemperature, hasHumidity, hasCO2content);
         this.temperature = 0;
         this.CO2content = 0;
         this.humidity = 0;
@@ -28,13 +29,9 @@ public class Sensor {
 
     public Sensor(int id, String name, String description, boolean hasTemperature, int temperature, boolean hasHumidity, int humidity, boolean hasCO2content, int CO2content) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-        this.hasTemperature = hasTemperature;
+        this.sensorHeader = new SensorHeader(name, description, hasTemperature, hasHumidity, hasCO2content);
         this.temperature = temperature;
-        this.hasHumidity = hasHumidity;
         this.humidity = humidity;
-        this.hasCO2content = hasCO2content;
         this.CO2content = CO2content;
     }
 
@@ -47,27 +44,27 @@ public class Sensor {
     }
 
     public String getName() {
-        return name;
+        return sensorHeader.getName();
     }
 
     public void setName(String name) {
-        this.name = name;
+        sensorHeader.setName(name);
     }
 
     public String getDescription() {
-        return description;
+        return sensorHeader.getDescription();
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        sensorHeader.setDescription(description);
     }
 
     public boolean isHasTemperature() {
-        return hasTemperature;
+        return sensorHeader.isHasTemperature();
     }
 
     public void setHasTemperature(boolean hasTemperature) {
-        this.hasTemperature = hasTemperature;
+        sensorHeader.setHasHumidity(hasTemperature);
     }
 
     public int getTemperature() {
@@ -80,11 +77,11 @@ public class Sensor {
     }
 
     public boolean isHasHumidity() {
-        return hasHumidity;
+        return sensorHeader.isHasHumidity();
     }
 
     public void setHasHumidity(boolean hasHumidity) {
-        this.hasHumidity = hasHumidity;
+        this.sensorHeader.setHasHumidity(hasHumidity);
     }
 
     public int getHumidity() {
@@ -96,11 +93,11 @@ public class Sensor {
     }
 
     public boolean isHasCO2content() {
-        return hasCO2content;
+        return sensorHeader.isHasCO2content();
     }
 
     public void setHasCO2content(boolean hasCO2content) {
-        this.hasCO2content = hasCO2content;
+        this.sensorHeader.setHasCO2content(hasCO2content);
     }
 
     public int getCO2content() {
@@ -115,13 +112,9 @@ public class Sensor {
     public String toString() {
         return "Sensor{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", hasTemperature=" + hasTemperature +
+                ", sensorHeader=" + sensorHeader +
                 ", temperature=" + temperature +
-                ", hasHumidity=" + hasHumidity +
                 ", humidity=" + humidity +
-                ", hasCO2content=" + hasCO2content +
                 ", CO2content=" + CO2content +
                 '}';
     }
