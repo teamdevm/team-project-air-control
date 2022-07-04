@@ -325,8 +325,15 @@ input {
     border-left: 2px solid #D6DADE;
 }
 
+.device-icons p {
+    position: static;
+    padding-left: 0px;
+    border-left: none;
+    display: inline;
+}
+
 .device-icon {
-    width: 85px;
+    width: 100px;
     margin-bottom: 15px;
 }
 

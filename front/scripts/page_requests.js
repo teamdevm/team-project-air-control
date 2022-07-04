@@ -7,6 +7,7 @@ class room {
 
 let addRoomForm = document.querySelector('form[name="addroom"]');
 let addSensorForm = document.querySelector('form[name="addsensor"]');
+let timeDelay = 500;
 
 async function getRooms(url) {
     let roomResponse = await fetch(url);
@@ -97,20 +98,20 @@ async function getSensors(url) {
             clonedSensor.classList.remove("sample");
             clonedSensor.id = "sensor" + sensorsData[i].id;
             clonedSensor.querySelector('.device-header').innerHTML = sensorsData[i].name;
-            clonedSensor.querySelector('p').innerHTML = sensorsData[i].description;
+            clonedSensor.querySelector('#sensorDescP').innerHTML = sensorsData[i].description;
 
             sensorChars = clonedSensor.querySelectorAll('.device-icon');
             if(sensorsData[i].hasTemperature) {
                 sensorChars[0].classList.remove('sample');
-                sensorChars[0].innerHTML += Number(sensorsData[i].temperature) + '°C';
+                sensorChars[0].querySelector('p').innerHTML = Number(sensorsData[i].temperature) + '°C';
             }
             if(sensorsData[i].hasHumidity) {
                 sensorChars[1].classList.remove('sample');
-                sensorChars[1].innerHTML += Number(sensorsData[i].humidity) + '%';
+                sensorChars[1].querySelector('p').innerHTML = Number(sensorsData[i].humidity) + '%';
             }
             if(sensorsData[i].hasCO2content) {
                 sensorChars[2].classList.remove('sample');
-                sensorChars[2].innerHTML += Number(sensorsData[i].co2content) + 'ppm';
+                sensorChars[2].querySelector('p').innerHTML = Number(sensorsData[i].co2content) + 'ppm';
             }
 
             sensorslst.appendChild(clonedSensor);
@@ -160,7 +161,7 @@ async function addSensor() {
 
         await getSensors('http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors');
         stopInterval();
-        requestsInterval = setInterval(forInterval, 4000);
+        requestsInterval = setInterval(forInterval, timeDelay);
     }
 }
 
@@ -170,6 +171,24 @@ async function forInterval() {
 
     if(selRoom) {
         curRoomId = selRoom.id.replace('room', '');
+
+        path = 'http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors';
+        let sensorsRequest = await fetch(path);
+        let sensorsData = await sensorsRequest.json();
+
+        for(let i = 0; i < sensorsData.length; i++) {
+            let chSensor = document.querySelector('#sensor' + sensorsData[i].id);
+            if(chSensor) {
+                let oldChars = chSensor.querySelectorAll('.device-icon');
+                if(sensorsData[i].hasTemperature)
+                    oldChars[0].querySelector('p').innerHTML =  Number(sensorsData[i].temperature) + '°C';
+                if(sensorsData[i].hasHumidity)
+                    oldChars[1].querySelector('p').innerHTML =  Number(sensorsData[i].humidity) + '%';
+                if(sensorsData[i].hasCO2content)
+                    oldChars[2].querySelector('p').innerHTML =  Number(sensorsData[i].co2content) + 'ppm';
+            }
+        }
+
         path = 'http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/currentStats';
         let currentRequest = await fetch(path);
         let currentData = await currentRequest.json();
@@ -177,23 +196,6 @@ async function forInterval() {
         currentStatsEl[0].innerHTML = currentData.temperature + '°C';
         currentStatsEl[1].innerHTML = currentData.humidity + '%';
         currentStatsEl[2].innerHTML = currentData.co2content + 'ppm';
-
-        path = 'http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors';
-        let sensorsRequest = await fetch(path);
-        let sensorsData = await sensorsRequest.json();
-
-        for(let i = 0; i < sensorsData.length; i++) {
-            let chSensor = document.querySelector('sensor' + sensorsData[i].id);
-            if(chSensor) {
-                let oldChars = chSensor.querySelectorAll('device-icon');
-                if(sensorsData[i].hasTemperature)
-                    oldChars[0].textContent =  Number(sensorsData[i].temperature) + '°C';
-                if(sensorsData[i].hasHumidity)
-                    oldChars[1].textContent =  Number(sensorsData[i].humidity) + '%';
-                if(sensorsData[i].hasCO2content)
-                    oldChars[2].textContent =  Number(sensorsData[i].co2content) + 'ppm';
-            }
-        }
     }
 }
 
@@ -240,7 +242,7 @@ async function addRoom(addForm) {
 
 getRooms('http://localhost:8080/api/v1/roomsinfo/roomList');
 
-let requestsInterval = setInterval(forInterval, 4000);
+let requestsInterval = setInterval(forInterval, timeDelay);
 
 addRoomForm.addEventListener('submit', async function(e) {
     e.preventDefault();
