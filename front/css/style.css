@@ -326,8 +326,8 @@ input {
 }
 
 .device-icon {
-    width: max-content;
-    margin-bottom: 10px;
+    width: 85px;
+    margin-bottom: 15px;
 }
 
 .device-icon .char-img {
