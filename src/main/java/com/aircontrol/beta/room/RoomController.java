@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/roomsinfo")
@@ -27,7 +28,7 @@ public class RoomController {
     }
 
     @GetMapping(path = "roomList")
-    public List<String> getRoomsNames(){
+    public List<Map<String, String>> getRoomsNames(){
         return roomService.getRoomsNames();
     }
 
