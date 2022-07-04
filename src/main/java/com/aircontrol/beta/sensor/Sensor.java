@@ -70,7 +70,7 @@ public class Sensor {
     }
 
     public int getTemperature() {
-  //      temperature += Integer.parseInt(String.valueOf(random()*10-5));
+        temperature += Integer.parseInt(String.valueOf(random()*10-5));
         return temperature;
     }
 
@@ -87,7 +87,7 @@ public class Sensor {
     }
 
     public int getHumidity() {
-  //      humidity += Integer.parseInt(String.valueOf(random()*10-5));
+        humidity += Integer.parseInt(String.valueOf(random()*10-5));
         return humidity;
     }
 
@@ -105,7 +105,7 @@ public class Sensor {
     }
 
     public int getCO2content() {
-  //      CO2content +=  Integer.parseInt(String.valueOf(random()*10-5));
+        CO2content +=  Integer.parseInt(String.valueOf(random()*10-5));
         return CO2content;
     }
 
