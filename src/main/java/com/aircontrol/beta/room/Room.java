@@ -157,7 +157,7 @@ public class Room {
                 kHum += 1;
             }
             if(tmp.isHasCO2content()){
-                avgCO2 += tmp.getTemperature();
+                avgCO2 += tmp.getCO2content();
                 kCO2 += 1;
             }
         }
