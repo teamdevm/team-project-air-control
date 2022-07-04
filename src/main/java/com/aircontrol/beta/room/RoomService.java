@@ -15,7 +15,7 @@ public class RoomService {
     public RoomService() {
         this.rooms = new ArrayList<>();
         this.rooms.add(new Room(1,"Room_1"));
-        this.rooms.get(1).addSensor(new Sensor(1,"Sensor1","test test testtest test testtest test testtest test testtest test testtest test testtest test testtest test test", true, true,true));
+        this.rooms.get(0).addSensor(new Sensor(1,"Sensor1","test test testtest test testtest test testtest test testtest test testtest test testtest test testtest test test", true, true,true));
         //this.rooms.add(new Room("Room 2"));
     }
 
