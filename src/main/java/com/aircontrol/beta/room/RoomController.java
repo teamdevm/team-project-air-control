@@ -4,10 +4,12 @@ package com.aircontrol.beta.room;
 import com.aircontrol.beta.device.Device;
 import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
+import com.aircontrol.beta.sensor.SensorHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/roomsinfo")
@@ -26,7 +28,7 @@ public class RoomController {
     }
 
     @GetMapping(path = "roomList")
-    public List<String> getRoomsNames(){
+    public List<Map<String, String>> getRoomsNames(){
         return roomService.getRoomsNames();
     }
 
@@ -45,13 +47,19 @@ public class RoomController {
         roomService.addNewRoom(room);
     }
 
+    @PostMapping(path="addroom/{RoomName}")
+    public void addRoomWithOptStats(@PathVariable("RoomName") String roomName,
+                                    @RequestBody Stats optStats){
+        roomService.addNewRoomWithOptStats(roomName, optStats);
+    }
+
     @PostMapping(path = "{RoomId}/add/device")
     public void addDevice(@PathVariable("RoomId") int roomId, @RequestBody Device device){
         roomService.addNewDevice(roomId, device);
     }
 
     @PostMapping(path = "{RoomId}/add/sensor")
-    public void addSensor(@PathVariable("RoomId") int roomId, @RequestBody Sensor sensor){
+    public void addSensor(@PathVariable("RoomId") int roomId, @RequestBody SensorHeader sensor){
         roomService.addNewSensor(roomId, sensor);
     }
 
@@ -115,4 +123,7 @@ public class RoomController {
     public Stats getCurrentStats(@PathVariable("RoomId") int roomId){
         return roomService.getCurrentStats(roomId);
     }
+
+    @GetMapping(path = "{RoomId}/get/optimalStats")
+    public Stats getOptimalStats(@PathVariable("RoomId") int roomId) { return roomService.getOptimalStats(roomId);}
 }

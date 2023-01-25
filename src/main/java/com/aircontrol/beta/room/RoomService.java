@@ -3,11 +3,10 @@ package com.aircontrol.beta.room;
 import com.aircontrol.beta.device.Device;
 import com.aircontrol.beta.device.DeviceSettings;
 import com.aircontrol.beta.sensor.Sensor;
+import com.aircontrol.beta.sensor.SensorHeader;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -16,6 +15,7 @@ public class RoomService {
     public RoomService() {
         this.rooms = new ArrayList<>();
         this.rooms.add(new Room(1,"Room_1"));
+        this.rooms.get(0).addSensor(new Sensor(1,"Sensor1","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis tincidunt sem. Ut molestie, justo dignissim fermentum viverra, leo est sollicitudin velit, tincidunt porta justo nibh sed erat. Suspendisse in volutpat est. Integer consequat ultricies volutpat. Quisque vitae mollis orci. Quisque velit sem, consectetur ut eros suscipit, mattis lacinia urna. Maecenas blandit ligula dolor, sit amet sollicitudin urna vulputate fringilla. Donec ullamcorper turpis ut ante ornare feugiat. Proin elementum a nisl non sollicitudin.", true, true,true));
         //this.rooms.add(new Room("Room 2"));
     }
 
@@ -53,24 +53,33 @@ public class RoomService {
         modifyRoom.getDevices().add(device);
     }
 
-    public void addNewSensor(int roomId, Sensor sensor) {
+    public void addNewSensor(int roomId, SensorHeader sensor) {
         Room modifyRoom = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
         if (modifyRoom == null){
             throw new IllegalStateException("room with id " + roomId + " does not exist");
         }
 
-        boolean sensorExists = modifyRoom.getSensors().stream().anyMatch(d -> d.getName().equals(sensor.getName()));
-        if (sensorExists){
-            throw new IllegalStateException("sensor with name " + sensor.getName() + " already exist");
+        int newSensorId = rooms.size()+1;
+        int tmpId = newSensorId;
+        Sensor sensorFinder = modifyRoom.getSensors().stream().filter(s -> s.getId() == tmpId).findAny().orElse(null);
+        while(sensorFinder != null){
+            newSensorId++;
+            int ltmpId = newSensorId;
+            sensorFinder = modifyRoom.getSensors().stream().filter(s -> s.getId() == ltmpId).findAny().orElse(null);
         }
-        modifyRoom.getSensors().add(sensor);
+        modifyRoom.getSensors().add(new Sensor(newSensorId, sensor));
     }
 
-    public List<String> getRoomsNames() {
-        List<String> roomsNames = new ArrayList<>();
+    public List<Map<String, String>> getRoomsNames() {
+
+        List<Map<String, String>> roomsNames = new ArrayList<>();
+
         for (Room r :
              rooms) {
-            roomsNames.add(r.getName());
+            Map<String, String> jo = new HashMap<>();
+            jo.put("id", ((Integer)r.getId()).toString());
+            jo.put("name", r.getName());
+            roomsNames.add(jo);
         }
         return roomsNames;
     }
@@ -204,5 +213,28 @@ public class RoomService {
         }
 
         return roomOperation.getCurrentStats();
+    }
+
+    public Stats getOptimalStats(int roomId) {
+        Room roomOperation = this.rooms.stream().filter(r -> r.getId() == roomId).findAny().orElse(null);
+        if (roomOperation == null){
+            throw new IllegalStateException("room with id " + roomId + " does not exist");
+        }
+
+        return roomOperation.getOptimalStats();
+    }
+
+
+    public void addNewRoomWithOptStats(String roomName, Stats optStats) {
+        int newRoomId = rooms.size()+1;
+        int tmpId = newRoomId;
+        Room roomFinder = this.rooms.stream().filter(r -> r.getId() == tmpId).findAny().orElse(null);
+        while(roomFinder != null){
+            newRoomId++;
+            int ltmpId = newRoomId;
+            roomFinder = this.rooms.stream().filter(r -> r.getId() == ltmpId).findAny().orElse(null);
+        }
+
+        rooms.add(new Room(newRoomId, roomName, optStats.getTemperature(), optStats.getHumidity(), optStats.getCO2content()));
     }
 }

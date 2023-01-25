@@ -4,7 +4,6 @@ public class Device {
     private int id;
     private String name;
     private String description;
-    //configurations here in the future;
 
     private DeviceSettings settings;
 
