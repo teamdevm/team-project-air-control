@@ -7,6 +7,7 @@ class room {
 
 let addRoomForm = document.querySelector('form[name="addroom"]');
 let addSensorForm = document.querySelector('form[name="addsensor"]');
+let timeDelay = 500;
 
 async function getRooms(url) {
     let roomResponse = await fetch(url);
@@ -65,7 +66,7 @@ async function getRooms(url) {
             optimalStatsEl[2].innerHTML = optimalData.co2content + 'ppm';
 
             oldSensors = document.querySelectorAll('#block_sensors .block-device');
-            sensorLst = document.querySelector('#block_sensors');
+            sensorLst = document.querySelector('.devices-lst');
             for(let i = 0; i < oldSensors.length; i++) {
                 if(!oldSensors[i].classList.contains('sample')) {
                     sensorLst.removeChild(oldSensors[i]);
@@ -80,10 +81,10 @@ async function getSensors(url) {
     let sensorsData = await sensorsResponse.json();
 
     sensorSample = document.getElementsByClassName("block-device sample");
-    sensorslst = document.getElementsByClassName("#block_sensors");
+    sensorslst = document.querySelector(".devices-lst");
 
     sensorsId = []
-    curSensors = document.querySelectorAll('#sensors .block-device');
+    curSensors = document.querySelectorAll('#block_sensors .block-device');
     for(let i = 0; i < curSensors.length; i++) {
         if(!curSensors[i].classList.contains('sample')) {
             sensorsId.push(curSensors[i].id.replace('sensor', ''));
@@ -97,20 +98,20 @@ async function getSensors(url) {
             clonedSensor.classList.remove("sample");
             clonedSensor.id = "sensor" + sensorsData[i].id;
             clonedSensor.querySelector('.device-header').innerHTML = sensorsData[i].name;
-            clonedSensor.querySelector('p').innerHTML = sensorsData[i].description;
+            clonedSensor.querySelector('#sensorDescP').innerHTML = sensorsData[i].description;
 
-            sensorChars = clonedSensor.querySelectorAll('device-icon');
+            sensorChars = clonedSensor.querySelectorAll('.device-icon');
             if(sensorsData[i].hasTemperature) {
                 sensorChars[0].classList.remove('sample');
-                sensorChars[0].textContent = Number(sensorsData[i].temperature) + '°C';
+                sensorChars[0].querySelector('p').innerHTML = Number(sensorsData[i].temperature) + '°C';
             }
             if(sensorsData[i].hasHumidity) {
                 sensorChars[1].classList.remove('sample');
-                sensorChars[1].textContent = Number(sensorsData[i].humidity) + '%';
+                sensorChars[1].querySelector('p').innerHTML = Number(sensorsData[i].humidity) + '%';
             }
             if(sensorsData[i].hasCO2content) {
                 sensorChars[2].classList.remove('sample');
-                sensorChars[2].textContent = Number(sensorsData[i].co2content) + 'ppm';
+                sensorChars[2].querySelector('p').innerHTML = Number(sensorsData[i].co2content) + 'ppm';
             }
 
             sensorslst.appendChild(clonedSensor);
@@ -128,6 +129,9 @@ async function addSensor() {
     newsensor = {};
     newsensor.name = data.get('sensorName');
     newsensor.description = data.get('sensorDesc');
+    newsensor.hasTemperature = false;
+    newsensor.hasHumidity = false;
+    newsensor.hasCO2content = false;
     if(data.get('sensorTemperature'))
         newsensor.hasTemperature = true;
     if(data.get('sensorHumidity'))
@@ -143,12 +147,21 @@ async function addSensor() {
         },
         body: JSON.stringify(newsensor)
     });
-    if (roomRequest.status > 400 && roomRequest.status < 600)
+    if (sensorRequest.status > 400 && sensorRequest.status < 600)
         throw 'Ошибочка';
     else {
+
+        oldSensors = document.querySelectorAll('#block_sensors .block-device');
+        sensorLst = document.querySelector('.devices-lst');
+        for(let i = 0; i < oldSensors.length; i++) {
+            if(!oldSensors[i].classList.contains('sample')) {
+                sensorLst.removeChild(oldSensors[i]);
+            }
+        }
+
         await getSensors('http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors');
         stopInterval();
-        requestsInterval = setInterval(forInterval, 4000);
+        requestsInterval = setInterval(forInterval, timeDelay);
     }
 }
 
@@ -158,6 +171,24 @@ async function forInterval() {
 
     if(selRoom) {
         curRoomId = selRoom.id.replace('room', '');
+
+        path = 'http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors';
+        let sensorsRequest = await fetch(path);
+        let sensorsData = await sensorsRequest.json();
+
+        for(let i = 0; i < sensorsData.length; i++) {
+            let chSensor = document.querySelector('#sensor' + sensorsData[i].id);
+            if(chSensor) {
+                let oldChars = chSensor.querySelectorAll('.device-icon');
+                if(sensorsData[i].hasTemperature)
+                    oldChars[0].querySelector('p').innerHTML =  Number(sensorsData[i].temperature) + '°C';
+                if(sensorsData[i].hasHumidity)
+                    oldChars[1].querySelector('p').innerHTML =  Number(sensorsData[i].humidity) + '%';
+                if(sensorsData[i].hasCO2content)
+                    oldChars[2].querySelector('p').innerHTML =  Number(sensorsData[i].co2content) + 'ppm';
+            }
+        }
+
         path = 'http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/currentStats';
         let currentRequest = await fetch(path);
         let currentData = await currentRequest.json();
@@ -165,23 +196,6 @@ async function forInterval() {
         currentStatsEl[0].innerHTML = currentData.temperature + '°C';
         currentStatsEl[1].innerHTML = currentData.humidity + '%';
         currentStatsEl[2].innerHTML = currentData.co2content + 'ppm';
-
-        path = 'http://localhost:8080/api/v1/roomsinfo/' + curRoomId + '/get/sensors';
-        let sensorsRequest = await fetch(path);
-        let sensorsData = await sensorsRequest.json();
-
-        for(let i = 0; i < sensorsData.length; i++) {
-            let chSensor = document.querySelector('sensor' + sensorsData[i].id);
-            if(chSensor) {
-                let oldChars = chSensor.querySelectorAll('device-icon');
-                if(sensorsData[i].hasTemperature)
-                    oldChars[0].textContent =  Number(sensorsData[i].temperature) + '°C';
-                if(sensorsData[i].hasHumidity)
-                    oldChars[1].textContent =  Number(sensorsData[i].humidity) + '%';
-                if(sensorsData[i].hasCO2content)
-                    oldChars[2].textContent =  Number(sensorsData[i].co2content) + 'ppm';
-            }
-        }
     }
 }
 
@@ -196,6 +210,7 @@ async function addRoom(addForm) {
     temper = data.get('optTempreture');
     humid = data.get('optHumidity');
     CO2 = data.get('optCarbon');
+    newroom.optimalStats = {};
     if(temper == '')
         newroom.optimalStats.temperature = 24;
     else
@@ -219,24 +234,24 @@ async function addRoom(addForm) {
         },
         body: JSON.stringify(newroom.optimalStats)
     });
-    if (roomRequest.status > 400 && roomRequest.status < 600)
-        throw 'Ошибочка';
+    /*if (roomRequest.status > 400 && roomRequest.status < 600)
+        throw 'Ошибочка';*/
 
     await getRooms('http://localhost:8080/api/v1/roomsinfo/roomList');
 }
 
 getRooms('http://localhost:8080/api/v1/roomsinfo/roomList');
 
-let requestsInterval = setInterval(forInterval, 4000);
+let requestsInterval = setInterval(forInterval, timeDelay);
 
 addRoomForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    try {
+    //try {
         await addRoom(addRoomForm);
-    } catch {
+    /*} catch {
         alert("Данные введены некорректно!");
         return;
-    }
+    }*/
     
     addRoomForm.reset();
     addRoomForm.closest('.popup').classList.remove('open');
@@ -244,12 +259,12 @@ addRoomForm.addEventListener('submit', async function(e) {
 
 addSensorForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    try {
+    //try {
         await addSensor();
-    } catch {
+    /*} catch {
         alert("Данные введены некорректно!");
         return;
-    }
+    }*/
     
     addSensorForm.reset();
     addSensorForm.closest('.popup').classList.remove('open');

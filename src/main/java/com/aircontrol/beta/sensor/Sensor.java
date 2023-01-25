@@ -1,5 +1,9 @@
 package com.aircontrol.beta.sensor;
 
+import com.aircontrol.beta.room.Stats;
+
+import static java.lang.Math.random;
+
 public class Sensor {
     private int id;
 
@@ -14,17 +18,17 @@ public class Sensor {
     public Sensor(int id, SensorHeader sensorHeader) {
         this.id = id;
         this.sensorHeader = sensorHeader;
-        this.temperature = 0;
-        this.CO2content = 0;
-        this.humidity = 0;
+        this.temperature = 24;
+        this.CO2content = 500;
+        this.humidity = 40;
     }
 
     public Sensor(int id, String name, String description, boolean hasTemperature, boolean hasHumidity, boolean hasCO2content) {
         this.id = id;
         this.sensorHeader = new SensorHeader(name, description, hasTemperature, hasHumidity, hasCO2content);
-        this.temperature = 0;
-        this.CO2content = 0;
-        this.humidity = 0;
+        this.temperature = 24;
+        this.CO2content = 500;
+        this.humidity = 40;
     }
 
     public Sensor(int id, String name, String description, boolean hasTemperature, int temperature, boolean hasHumidity, int humidity, boolean hasCO2content, int CO2content) {
@@ -34,7 +38,42 @@ public class Sensor {
         this.humidity = humidity;
         this.CO2content = CO2content;
     }
+    public void getNewStats(Stats optimalStats){
+        int min = 0;
+        int max = 0;
+        if(optimalStats.getTemperature() > temperature){
+            max = 7;
+            min = -2;
+        }
 
+        else {
+            max = 3;
+            min = -7;
+        }
+        temperature += (int)(Math.random()*(max-min)+min);
+        if(optimalStats.getHumidity() > humidity)
+        {
+            max = 7;
+            min = -2;
+        }
+        else
+        {
+            max = 3;
+            min = -7;
+        }
+        humidity += (int)(Math.random()*(max-min)+min);
+        if(optimalStats.getCO2content() > CO2content)
+        {
+            max = 7;
+            min = -2;
+        }
+        else
+        {
+            max = 3;
+            min = -7;
+        }
+        CO2content += (int)(Math.random()*(max-min)+min);
+    }
     public int getId() {
         return id;
     }
@@ -68,7 +107,6 @@ public class Sensor {
     }
 
     public int getTemperature() {
-
         return temperature;
     }
 
@@ -93,6 +131,7 @@ public class Sensor {
     }
 
     public boolean isHasCO2content() {
+
         return sensorHeader.isHasCO2content();
     }
 
@@ -107,6 +146,8 @@ public class Sensor {
     public void setCO2content(int CO2content) {
         this.CO2content = CO2content;
     }
+
+
 
     @Override
     public String toString() {
