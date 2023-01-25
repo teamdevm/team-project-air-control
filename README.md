@@ -1,3 +1,5 @@
 # team-project-air-control
-team-project-air-control created by GitHub Classroom
-dsfa
+Сайт для контроля показателей воздуха.
+* Фалькович Эдуард - front-end developer.
+* Пьянков Олег - teamlead / back-end.
+* Олейников Борис - back-end developer.
