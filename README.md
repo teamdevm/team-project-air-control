@@ -3,4 +3,3 @@
 * Фалькович Эдуард - front-end developer.
 * Пьянков Олег - teamlead / back-end.
 * Олейников Борис - back-end developer.
-* 
